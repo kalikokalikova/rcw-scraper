@@ -14,8 +14,19 @@ axios(url)
     .then(response => {
         const html = response.data
         const $ = cheerio.load(html)
-        const rcw_text = $('#contentWrapper').text()
-        rcws.push(rcw_text)
+        $('#contentWrapper a').first().remove()
+        const cite = $('#contentWrapper div').first().text()
+        const title = $('#contentWrapper div:nth-child(2)').text()
+        const content = $('#contentWrapper div:nth-child(3)').text()
+
+        console.log(cite)
+        console.log(title)
+        console.log(content)
+        rcws.push({
+            cite,
+            title,
+            content
+        })
     }).catch(err => console.log(err))
 
 app.get('/results', (req, res) => {
