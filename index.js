@@ -8,21 +8,18 @@ const app = express()
 app.use(cors())
 const url = "https://apps.leg.wa.gov/rcw/default.aspx?cite=69.50.4013"
 
+const rcws = []
 
-app.get('/', function(req, res) {
-    res.json("This is my web scraper")
-})
+axios(url)
+    .then(response => {
+        const html = response.data
+        const $ = cheerio.load(html)
+        const rcw_text = $('#contentWrapper').text()
+        rcws.push(rcw_text)
+    }).catch(err => console.log(err))
 
 app.get('/results', (req, res) => {
-    axios(url)
-        .then(response => {
-            const html = response.data
-            const $ = cheerio.load(html)
-            const rcw = $('#contentWrapper').text()
-            // console.log(rcw)
-            res.json(rcw)
-        }).catch(err => console.log(err))
-
+    res.json(rcws)
 })
 
 
