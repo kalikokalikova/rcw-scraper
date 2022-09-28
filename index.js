@@ -1,9 +1,11 @@
 const PORT = 3000
 const axios = require('axios')
 const cheerio = require('cheerio')
+const cors = require('cors')
 const express = require('express')
 
 const app = express()
+app.use(cors())
 const url = "https://apps.leg.wa.gov/rcw/default.aspx?cite=69.50.4013"
 
 
